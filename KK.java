@@ -1,9 +1,8 @@
 import java.util.Arrays;
 
-public class Assignment {
+public class KK {
 
-  public static int KarmarkarKarp (int[] A)
-  {
+  public static int KarmarkarKarp (int[] A) {
     printArray(A);
 
     // Finds the two largest numbers
@@ -28,11 +27,14 @@ public class Assignment {
 
   // Returns the indices of the two largest elements
   public static int[] twoMaxNums(int[] A) {
+    // Indices of largest elements
     int largest = 0;
     int secondLargest = 1;
 
+    // One loop through the array, so this runs in O(n)
     for (int i = 0, end = A.length; i < end; i++)
     {
+      // We found a larger number
       if (A[i] > A[largest])
       {
         secondLargest = largest;
@@ -48,8 +50,10 @@ public class Assignment {
   }
 
   // Just pretty prints the array
-  public static void printArray(int[] A){
+  public static void printArray(int[] A) {
     String result = "";
+
+    // Creates a string from the array
     for(int i = 0, end = A.length; i < end; i++)
     {
       result += A[i] + " ";
@@ -57,9 +61,41 @@ public class Assignment {
     System.out.println(result);
   }
 
-  public static void main(String[] args)
-  {
-    int[] A = {8, 10, 7, 6, 5};
+  public static void main(String[] args) {
+    // Checks the flags
+    if(args.length != 1) {
+      System.out.println("Output should be of the form 'java strassen <inputfile>'");
+      return;
+    }
+
+    // Loads flags into memory
+    String filename = args[0];
+
+    // Initialization
+    int[] A = new int[100];
+    BufferedReader in = null;
+
+    // Reading the inputfile
+    try {
+      int num;
+
+      // Contains the file
+      in = new BufferedReader(new FileReader(filename));
+
+      // Populates our array
+      for (int i = 0; i < A.length; i++) {
+        num = Integer.parseInt(in.readLine(), 10);
+        A[i] = num;
+      }
+
+      in.close();
+    }
+    // Fileread errors
+    catch (Exception e) {
+      System.out.println("Exception occurred reading " + filename);
+      e.printStackTrace();
+      return;
+    }
     System.out.println("Residue: " + KarmarkarKarp(A));
   }
 }
