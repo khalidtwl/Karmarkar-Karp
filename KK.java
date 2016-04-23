@@ -1,4 +1,5 @@
-import java.util.Arrays;
+import java.util.*;
+import java.io.*;
 
 public class kk {
 
@@ -83,43 +84,45 @@ public class kk {
   }
 
   public static void main(String[] args) {
-    long[] A = {10,15,0,6,5};
+    // long[] A = {10,15,0,6,5};
+    // MaxHeap H = new MaxHeap(A);
+    // System.out.println("Residue: " + KarmarkarKarp(H));
+    // Checks the flags
+    if(args.length != 1) {
+      System.out.println("Output should be of the form 'java kk <inputfile>'");
+      return;
+    }
+
+    // Loads flags into memory
+    String filename = args[0];
+
+    // Initialization
+    long[] A = new long[100];
+    BufferedReader in = null;
+
+    // Reading the inputfile
+    try {
+      long num;
+
+      // Contains the file
+      in = new BufferedReader(new FileReader(filename));
+
+      // Populates our array
+      for (int i = 0; i < A.length; i++) {
+        num = Long.parseLong(in.readLine(), 10);
+        A[i] = num;
+      }
+
+      in.close();
+    }
+    // Fileread errors
+    catch (Exception e) {
+      System.out.println("Exception occurred reading " + filename);
+      e.printStackTrace();
+      return;
+    }
+
     MaxHeap H = new MaxHeap(A);
     System.out.println("Residue: " + KarmarkarKarp(H));
-    // // Checks the flags
-    // if(args.length != 1) {
-    //   System.out.println("Output should be of the form 'java strassen <inputfile>'");
-    //   return;
-    // }
-
-    // // Loads flags into memory
-    // String filename = args[0];
-
-    // // Initialization
-    // int[] A = new int[100];
-    // BufferedReader in = null;
-
-    // // Reading the inputfile
-    // try {
-    //   int num;
-
-    //   // Contains the file
-    //   in = new BufferedReader(new FileReader(filename));
-
-    //   // Populates our array
-    //   for (int i = 0; i < A.length; i++) {
-    //     num = Integer.parseInt(in.readLine(), 10);
-    //     A[i] = num;
-    //   }
-
-    //   in.close();
-    // }
-    // // Fileread errors
-    // catch (Exception e) {
-    //   System.out.println("Exception occurred reading " + filename);
-    //   e.printStackTrace();
-    //   return;
-    // }
-    // System.out.println("Residue: " + KarmarkarKarp(A));
   }
 }
