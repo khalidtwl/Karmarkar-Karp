@@ -5,11 +5,11 @@ public class kk {
   public kk(){}
 
   public static long KarmarkarKarp (long[] A) {
-    printArray(A);
+    // printArray(A);
 
     // Finds the two largest numbers
     int[] largestIndices = twoMaxNums(A);
-    System.out.println("Two largest indices: " + largestIndices[0] + " " + largestIndices[1]);
+    // System.out.println("Two largest indices: " + largestIndices[0] + " " + largestIndices[1]);
 
     // Base case
     if (A[largestIndices[1]] == 0) {
@@ -18,7 +18,7 @@ public class kk {
 
     // Gets their difference
     long residue = Math.abs(A[largestIndices[0]] - A[largestIndices[1]]);
-    System.out.println("Residue: " + residue);
+    // System.out.println("Residue: " + residue);
 
     // Replace with residue and/or zero
     A[largestIndices[0]] = residue;
