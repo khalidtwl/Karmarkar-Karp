@@ -99,10 +99,10 @@ class randomize {
     }
 
     return neighborS;
-	}	
+	}
 
   private long residue(long[] s) {
-    long resd = 0; 
+    long resd = 0;
     for (int i = 0; i < length; i++) {
       resd += numlist[i] * s[i];
     }
@@ -126,6 +126,6 @@ class randomize {
 			System.out.print(s[i] + " ");
 		}
 
-	}	
+	}
 
 }
