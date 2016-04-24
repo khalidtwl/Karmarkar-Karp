@@ -121,8 +121,7 @@ public class kk {
       e.printStackTrace();
       return;
     }
-
     MaxHeap H = new MaxHeap(A);
-    System.out.println("Residue: " + KarmarkarKarp(H));
+    System.out.println(KarmarkarKarp(H));
   }
 }

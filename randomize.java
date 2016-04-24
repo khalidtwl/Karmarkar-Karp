@@ -3,92 +3,73 @@ import java.util.Random;
 class randomize {
 
   private static final int max_iter = 25000;
-  private static final double t_iter = 10000000000.0 * Math.pow(0.8, (double) max_iter/ (double) 300.0);
-  private long[] a;
-  private int length;
-  private Random rnd = new Random(System.nanoTime());
+  private static final double t_iter = 10000000000.0 * Math.pow(0.8, 83.0);
+  private Random rng = new Random(System.nanoTime());
   private kk k = new kk();
 
-  public randomize(long[] a) {
-    this.a = a;
-    this.length = a.length;
-  }
+  public randomize(){}
 
-  public long repeatedrandomS() {
-    int[] s = randomS();
-    long resd_s = residue(s);
+  public long repeatedrandomS(long[] a) {
+    int length = a.length;
+    int[] s = randomS(length);
+    long resd_s = residue(s, a);
     for (int i = 0; i < max_iter; i++) {
-      int[] sp = randomS();
-      long resd_sp = residue(sp);
+      int[] sp = randomS(length);
+      long resd_sp = residue(sp, a);
       if (resd_sp < resd_s) {
         s = sp;
         resd_s = resd_sp;
       }
     }
-    printArray(s);
     return resd_s;
   }
 
-  public long repeatedrandomP() {
-    int[] p = randomP();
-    long[] ap = aprime(p);
-    long resd_ap = k.KarmarkarKarp(new MaxHeap(ap));
-    for (int i = 0; i < max_iter; i++) {
-      int[] pp = randomP();
-      long[] app = aprime(pp);
-      long resd_app = k.KarmarkarKarp(new MaxHeap(app));
-      if (resd_app < resd_ap) {
-        p = pp;
-        resd_ap = resd_app;
-      }
-    }
-    printArray(p);
-    return resd_ap;
-  }
-
-  public long hillclimbingS() {
-    int[] s = randomS();
-    long resd_s = residue(s);
+  public long hillclimbingS(long[] a) {
+    int length = a.length;
+    int[] s = randomS(length);
+    long resd_s = residue(s, a);
     for (int i = 0; i < max_iter; i++) {
       int[] sp = neighborS(s);
-      long resd_sp = residue(sp);
+      long resd_sp = residue(sp, a);
       if (resd_sp < resd_s) {
         s = sp;
         resd_s = resd_sp;
       }
     }
-    printArray(s);
     return resd_s;
   }
 
-  public long hillclimbingP() {
-    int[] p = randomP();
-    long[] ap = aprime(p);
-    long resd_ap = k.KarmarkarKarp(new MaxHeap(ap));
+  public long repeatedrandomP(long[] a) {
+    int length = a.length;
+    int[] p = randomP(length);
+    long[] ap = aprime(p, a);
+    long resd_p = k.KarmarkarKarp(new MaxHeap(ap));
     for (int i = 0; i < max_iter; i++) {
-      int[] pp = neighborP(p);
-      long[] app = aprime(pp);
-      long resd_app = k.KarmarkarKarp(new MaxHeap(app));
-      if (resd_app < resd_ap) {
+      int[] pp = randomP(length);
+      long[] app = aprime(pp, a);
+      long resd_pp = k.KarmarkarKarp(new MaxHeap(app));
+      if (resd_pp < resd_p) {
         p = pp;
-        resd_ap = resd_app;
+        resd_p = resd_pp;
       }
     }
-    printArray(p);
-    return resd_ap;
+    return resd_p;
   }
 
-	public long simulatedannealingS() {
-    int[] s = randomS();
+  public long simulatedannealingS(long[] a) {
+    int length = a.length;
+    int[] s = randomS(length);
     int[] spp = s;
-    long resd_s = residue(s);
+    long resd_s = residue(s, a);
     long resd_spp = resd_s;
 
     for (int i = 0; i < max_iter; i++) {
       int[] sp = neighborS(s);
-      long resd_sp = residue(sp);
-      double prob = Math.exp((-(double)resd_s-(double)resd_sp)/t_iter);
-      if (resd_sp < resd_s || rnd.nextDouble() < prob) {
+      long resd_sp = residue(sp, a);
+      double prob = Math.exp((-((double)resd_sp-(double)resd_s))/t_iter);
+      if (resd_sp > resd_s && prob > 0.00001)
+        System.out.println(resd_s + " " + resd_sp + " " + prob);
+      if (resd_sp < resd_s || rng.nextDouble() < prob) {
         s = sp;
         resd_s = resd_sp;
       }
@@ -97,22 +78,43 @@ class randomize {
         resd_spp = resd_s;
       }
     }
-    printArray(spp);
+    // printArray(spp);
     return resd_spp;
   }
 
-  public long simulatedannealingP() {
-    int[] p = randomP();
+  public long hillclimbingP(long[] a) {
+    int length = a.length;
+    int[] p = randomP(length);
+    long[] ap = aprime(p, a);
+    long resd_ap = k.KarmarkarKarp(new MaxHeap(ap));
+    for (int i = 0; i < max_iter; i++) {
+      int[] pp = neighborP(p);
+      long[] app = aprime(pp, a);
+      long resd_app = k.KarmarkarKarp(new MaxHeap(app));
+      if (resd_app < resd_ap) {
+        p = pp;
+        resd_ap = resd_app;
+      }
+    }
+    // printArray(p);
+    return resd_ap;
+  }
+
+
+
+  public long simulatedannealingP(long[] a) {
+    int length = a.length;
+    int[] p = randomP(length);
     int[] ppp = p;
-    long[] ap = aprime(p);
+    long[] ap = aprime(p, a);
     long resd_ap = k.KarmarkarKarp(new MaxHeap(ap));
     long resd_appp = resd_ap;
     for (int i = 0; i < max_iter; i++) {
       int[] pp = neighborP(p);
-      long[] app = aprime(pp);
+      long[] app = aprime(pp, a);
       long resd_app = k.KarmarkarKarp(new MaxHeap(app));
-      double prob = Math.exp((-(double)resd_ap-(double)resd_app)/t_iter);
-      if (resd_app < resd_ap || rnd.nextDouble() < prob) {
+      double prob = Math.exp((-((double)resd_app-(double)resd_ap))/t_iter);
+      if (resd_app < resd_ap || rng.nextDouble() < prob) {
         p = pp;
         resd_ap = resd_app;
       }
@@ -121,15 +123,15 @@ class randomize {
         resd_appp = resd_ap;
       }
     }
-    printArray(ppp);
+    // printArray(ppp);
     return resd_appp;
   }
 
 
-  private int[] randomS() {
+  private int[] randomS(int length) {
     int[] s = new int[length];
     for (int i = 0; i < length; i++) {
-      if (rnd.nextDouble() < 0.5) {
+      if (rng.nextDouble() < 0.5) {
         s[i] = -1;
       }
       else {
@@ -139,15 +141,16 @@ class randomize {
     return s;
   }
 
-  private int[] randomP() {
+  private int[] randomP(int length) {
     int[] p = new int[length];
     for (int i = 0; i < length; i++) {
-      p[i] = rnd.nextInt(length);
+      p[i] = rng.nextInt(length);
     }
     return p;
   }
 
-  private long[] aprime(int[] p) {
+  private long[] aprime(int[] p, long[] a) {
+    int length = p.length;
     long[] ap = new long[length];
     for (int i = 0; i < length; i++) {
       ap[p[i]] += a[i];
@@ -156,18 +159,19 @@ class randomize {
   }
 
   private int[] neighborS(int[] s) {
-
+    int length = s.length;
     int[] neighborS = new int[length];
     System.arraycopy(s, 0, neighborS, 0, length);
 
-    int i = rnd.nextInt(length);
+    int i;
     int j;
     do {
-      j = rnd.nextInt(length);
+      i = rng.nextInt(length);
+      j = rng.nextInt(length);
     } while (i == j);
 
     neighborS[i] = -neighborS[i];
-    if (rnd.nextDouble() < 0.5) {
+    if (rng.nextDouble() < 0.5) {
       neighborS[j] = -neighborS[j];
     }
 
@@ -175,23 +179,22 @@ class randomize {
 	}
 
   private int[] neighborP(int[] p) {
+    int length = p.length;
     int[] neighborP = new int[length];
     System.arraycopy(p, 0, neighborP, 0, length);
     int i;
     int j;
     do {
-      i = rnd.nextInt(length);
-      do {
-        j = rnd.nextInt(length);
-      } while (i == j);
-    } while (neighborP[i] == j);
+      i = rng.nextInt(length);
+      j = rng.nextInt(length);
+    } while (i == j || neighborP[i] == j);
     neighborP[i] = j;
     return neighborP;
   }
 
-  private long residue(int[] s) {
+  private long residue(int[] s, long[] a) {
     long resd = 0;
-    for (int i = 0; i < length; i++) {
+    for (int i = 0, length = s.length; i < length; i++) {
       resd += a[i] * s[i];
     }
 
@@ -224,15 +227,69 @@ class randomize {
     System.out.println(result);
   }
 
+  private long[] rand_100longs() {
+    long[] result = new long[100];
+    for (int i = 0; i < 100; i++) {
+      result[i] = nextLong(1000000000000L) + 1L;
+    }
+    return result;
+  }
+
+  // http://stackoverflow.com/questions/2546078/java-random-long-number-in-0-x-n-range
+  private long nextLong(long n) {
+    long bits, val;
+    do {
+      bits = (rng.nextLong() << 1) >>> 1;
+      val = bits % n;
+    } while (bits-val+(n-1) < 0L);
+    return val;
+  } 
+
+  public void run_tests() {
+    for (int i = 0; i < 50; i++) {
+      long[] a = rand_100longs();
+      int length = a.length;
+      long[] a_clone = new long[length];
+
+      System.arraycopy(a, 0, a_clone, 0, length);
+      long kk_resd = k.KarmarkarKarp(new MaxHeap(a_clone));
+
+      System.arraycopy(a, 0, a_clone, 0, length);
+      long repeatedrandomS_resd = repeatedrandomS(a_clone);
+
+      System.arraycopy(a, 0, a_clone, 0, length);
+      long repeatedrandomP_resd = repeatedrandomP(a_clone);
+
+      System.arraycopy(a, 0, a_clone, 0, length);
+      long hillclimbingS_resd = hillclimbingS(a_clone);
+
+      System.arraycopy(a, 0, a_clone, 0, length);
+      long hillclimbingP_resd = hillclimbingP(a_clone);
+
+      System.arraycopy(a, 0, a_clone, 0, length);
+      long simulatedannealingS_resd = simulatedannealingS(a_clone);
+
+      System.arraycopy(a, 0, a_clone, 0, length);
+      long simulatedannealingP_resd = simulatedannealingP(a_clone);
+
+      System.out.println(kk_resd + " " + repeatedrandomS_resd + " " + repeatedrandomP_resd + " " + 
+        hillclimbingS_resd + " " + hillclimbingP_resd + " " + simulatedannealingS_resd 
+        + " " + simulatedannealingP_resd);
+    }
+  }
+
   public static void main(String[] args) {
-    long[] numlist = {10,8,7,6,5};
-    randomize r = new randomize(numlist);
-    System.out.println("repeated random S: " + r.repeatedrandomS());
-    System.out.println("repeated random P: " + r.repeatedrandomP());
-    System.out.println("hill climbing S: " + r.hillclimbingS());
-    System.out.println("hill climbing P: " + r.hillclimbingP());
-    System.out.println("simulated annealing S: " + r.simulatedannealingS());
-    System.out.println("simulated annealing P: " + r.simulatedannealingP());
+    randomize r = new randomize();
+    // long[] numlist = r.rand_100longs();
+    // System.out.println("repeated random S: " + r.repeatedrandomS(numlist));
+    // System.out.println("repeated random P: " + r.repeatedrandomP(numlist));
+    // System.out.println("hill climbing S: " + r.hillclimbingS(numlist));
+    // System.out.println("hill climbing P: " + r.hillclimbingP(numlist));
+    // System.out.println("simulated annealing S: " + r.simulatedannealingS(numlist));
+    // System.out.println("simulated annealing P: " + r.simulatedannealingP(numlist));
+
+    r.run_tests();
+
   }
 
 }
