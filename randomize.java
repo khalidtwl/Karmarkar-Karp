@@ -25,22 +25,24 @@ class randomize {
         resd_s = resd_sp;
       }
     }
+    printArray(s);
     return resd_s;
   }
 
   public long repeatedrandomP() {
     int[] p = randomP();
     long[] ap = aprime(p);
-    long resd_ap = k.KarmarkarKarp(ap);
+    long resd_ap = k.KarmarkarKarp(new MaxHeap(ap));
     for (int i = 0; i < max_iter; i++) {
       int[] pp = randomP();
       long[] app = aprime(pp);
-      long resd_app = k.KarmarkarKarp(app);
+      long resd_app = k.KarmarkarKarp(new MaxHeap(app));
       if (resd_app < resd_ap) {
         p = pp;
         resd_ap = resd_app;
       }
     }
+    printArray(p);
     return resd_ap;
   }
 
@@ -55,22 +57,24 @@ class randomize {
         resd_s = resd_sp;
       }
     }
+    printArray(s);
     return resd_s;
   }
 
   public long hillclimbingP() {
     int[] p = randomP();
     long[] ap = aprime(p);
-    long resd_ap = k.KarmarkarKarp(ap);
+    long resd_ap = k.KarmarkarKarp(new MaxHeap(ap));
     for (int i = 0; i < max_iter; i++) {
       int[] pp = neighborP(p);
       long[] app = aprime(pp);
-      long resd_app = k.KarmarkarKarp(app);
+      long resd_app = k.KarmarkarKarp(new MaxHeap(app));
       if (resd_app < resd_ap) {
         p = pp;
         resd_ap = resd_app;
       }
     }
+    printArray(p);
     return resd_ap;
   }
 
@@ -93,6 +97,7 @@ class randomize {
         resd_spp = resd_s;
       }
     }
+    printArray(spp);
     return resd_spp;
   }
 
@@ -100,12 +105,12 @@ class randomize {
     int[] p = randomP();
     int[] ppp = p;
     long[] ap = aprime(p);
-    long resd_ap = k.KarmarkarKarp(ap);
+    long resd_ap = k.KarmarkarKarp(new MaxHeap(ap));
     long resd_appp = resd_ap;
     for (int i = 0; i < max_iter; i++) {
       int[] pp = neighborP(p);
       long[] app = aprime(pp);
-      long resd_app = k.KarmarkarKarp(app);
+      long resd_app = k.KarmarkarKarp(new MaxHeap(app));
       double prob = Math.exp((-(double)resd_ap-(double)resd_app)/t_iter);
       if (resd_app < resd_ap || rnd.nextDouble() < prob) {
         p = pp;
@@ -116,6 +121,7 @@ class randomize {
         resd_appp = resd_ap;
       }
     }
+    printArray(ppp);
     return resd_appp;
   }
 
@@ -194,6 +200,28 @@ class randomize {
     }
 
     return resd;
+  }
+  // Just pretty prints the array
+  public static void printArray(int[] A) {
+    String result = "";
+
+    // Creates a string from the array
+    for(int i = 0, end = A.length; i < end; i++)
+    {
+      result += A[i] + " ";
+    }
+    System.out.println(result);
+  }
+
+  public static void printArray(long[] A) {
+    String result = "";
+
+    // Creates a string from the array
+    for(int i = 0, end = A.length; i < end; i++)
+    {
+      result += A[i] + " ";
+    }
+    System.out.println(result);
   }
 
   public static void main(String[] args) {

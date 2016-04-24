@@ -6,7 +6,7 @@ public class kk {
   public kk(){}
 
   public static long KarmarkarKarp (MaxHeap H) {
-    MaxHeap.printHeap(H);
+    // MaxHeap.printHeap(H);
 
     // Gets two largest elements
     long largest = H.get(1);
@@ -34,7 +34,7 @@ public class kk {
 
     // Gets their difference
     long residue = Math.abs(largest - large);
-    System.out.println("Residue: " + residue);
+    // System.out.println("Residue: " + residue);
 
     // Replace with residue and/or zero
     H.change(1, residue);
