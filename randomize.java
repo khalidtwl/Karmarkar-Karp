@@ -37,7 +37,7 @@ class randomize {
       long[] app = aprime(pp);
       long resd_app = k.KarmarkarKarp(app);
       if (resd_app < resd_ap) {
-        p = pp; 
+        p = pp;
         resd_ap = resd_app;
       }
     }
@@ -67,7 +67,7 @@ class randomize {
       long[] app = aprime(pp);
       long resd_app = k.KarmarkarKarp(app);
       if (resd_app < resd_ap) {
-        p = pp; 
+        p = pp;
         resd_ap = resd_app;
       }
     }
@@ -108,7 +108,7 @@ class randomize {
       long resd_app = k.KarmarkarKarp(app);
       double prob = Math.exp((-(double)resd_ap-(double)resd_app)/t_iter);
       if (resd_app < resd_ap || rnd.nextDouble() < prob) {
-        p = pp; 
+        p = pp;
         resd_ap = resd_app;
       }
       if (resd_ap < resd_appp) {
@@ -116,7 +116,7 @@ class randomize {
         resd_appp = resd_ap;
       }
     }
-    return resd_appp;    
+    return resd_appp;
   }
 
 
@@ -184,7 +184,7 @@ class randomize {
   }
 
   private long residue(int[] s) {
-    long resd = 0; 
+    long resd = 0;
     for (int i = 0; i < length; i++) {
       resd += a[i] * s[i];
     }
@@ -205,8 +205,6 @@ class randomize {
     System.out.println("hill climbing P: " + r.hillclimbingP());
     System.out.println("simulated annealing S: " + r.simulatedannealingS());
     System.out.println("simulated annealing P: " + r.simulatedannealingP());
-
-
   }
 
 }

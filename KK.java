@@ -1,30 +1,50 @@
-import java.util.Arrays;
+import java.util.*;
+import java.io.*;
 
 public class kk {
 
   public kk(){}
 
-  public static long KarmarkarKarp (long[] A) {
-    // printArray(A);
+  public static long KarmarkarKarp (MaxHeap H) {
+    MaxHeap.printHeap(H);
+
+    // Gets two largest elements
+    long largest = H.get(1);
+    long large;
+    int largeIndex;
+    if (H.get(2) < H.get(3))
+    {
+      large = H.get(3);
+      largeIndex = 3;
+    }
+    else
+    {
+      large = H.get(2);
+      largeIndex = 2;
+    }
 
     // Finds the two largest numbers
-    int[] largestIndices = twoMaxNums(A);
+    // int[] largestIndices = twoMaxNums(A);
     // System.out.println("Two largest indices: " + largestIndices[0] + " " + largestIndices[1]);
 
     // Base case
-    if (A[largestIndices[1]] == 0) {
-      return A[largestIndices[0]];
+    if (large == 0) {
+      return largest;
     }
 
     // Gets their difference
-    long residue = Math.abs(A[largestIndices[0]] - A[largestIndices[1]]);
-    // System.out.println("Residue: " + residue);
+    long residue = Math.abs(largest - large);
+    System.out.println("Residue: " + residue);
 
     // Replace with residue and/or zero
-    A[largestIndices[0]] = residue;
-    A[largestIndices[1]] = 0;
+    H.change(1, residue);
+    H.change(largeIndex, 0);
 
-    return KarmarkarKarp(A);
+    // Resorts the heap -- 2log(n) time
+    MaxHeap.MaxHeapify(H, largeIndex);
+    MaxHeap.MaxHeapify(H, 1);
+
+    return KarmarkarKarp(H);
   }
 
   // Returns the indices of the two largest elements
@@ -64,40 +84,45 @@ public class kk {
   }
 
   public static void main(String[] args) {
-    // // Checks the flags
-    // if(args.length != 1) {
-    //   System.out.println("Output should be of the form 'java strassen <inputfile>'");
-    //   return;
-    // }
+    // long[] A = {10,15,0,6,5};
+    // MaxHeap H = new MaxHeap(A);
+    // System.out.println("Residue: " + KarmarkarKarp(H));
+    // Checks the flags
+    if(args.length != 1) {
+      System.out.println("Output should be of the form 'java kk <inputfile>'");
+      return;
+    }
 
-    // // Loads flags into memory
-    // String filename = args[0];
+    // Loads flags into memory
+    String filename = args[0];
 
-    // // Initialization
-    // int[] A = new int[100];
-    // BufferedReader in = null;
+    // Initialization
+    long[] A = new long[100];
+    BufferedReader in = null;
 
-    // // Reading the inputfile
-    // try {
-    //   int num;
+    // Reading the inputfile
+    try {
+      long num;
 
-    //   // Contains the file
-    //   in = new BufferedReader(new FileReader(filename));
+      // Contains the file
+      in = new BufferedReader(new FileReader(filename));
 
-    //   // Populates our array
-    //   for (int i = 0; i < A.length; i++) {
-    //     num = Integer.parseInt(in.readLine(), 10);
-    //     A[i] = num;
-    //   }
+      // Populates our array
+      for (int i = 0; i < A.length; i++) {
+        num = Long.parseLong(in.readLine(), 10);
+        A[i] = num;
+      }
 
-    //   in.close();
-    // }
-    // // Fileread errors
-    // catch (Exception e) {
-    //   System.out.println("Exception occurred reading " + filename);
-    //   e.printStackTrace();
-    //   return;
-    // }
-    // System.out.println("Residue: " + KarmarkarKarp(A));
+      in.close();
+    }
+    // Fileread errors
+    catch (Exception e) {
+      System.out.println("Exception occurred reading " + filename);
+      e.printStackTrace();
+      return;
+    }
+
+    MaxHeap H = new MaxHeap(A);
+    System.out.println("Residue: " + KarmarkarKarp(H));
   }
 }
