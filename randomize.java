@@ -9,6 +9,7 @@ class randomize {
 
   public randomize(){}
 
+  // return a residue from repeated random algorithm using P representation
   public long repeatedrandomS(long[] a) {
     int length = a.length;
     int[] s = randomS(length);
@@ -24,6 +25,7 @@ class randomize {
     return resd_s;
   }
 
+  // return a residue from hill climbing algorithm using S representation
   public long hillclimbingS(long[] a) {
     int length = a.length;
     int[] s = randomS(length);
@@ -39,6 +41,7 @@ class randomize {
     return resd_s;
   }
 
+    // return a residue from repeated random algorithm using P representation
   public long repeatedrandomP(long[] a) {
     int length = a.length;
     int[] p = randomP(length);
@@ -56,6 +59,7 @@ class randomize {
     return resd_p;
   }
 
+    // return a residue from simulated annealing algorithm using S representation
   public long simulatedannealingS(long[] a) {
     int length = a.length;
     int[] s = randomS(length);
@@ -82,6 +86,7 @@ class randomize {
     return resd_spp;
   }
 
+  // return a residue from hill climbing algorithm using P representation
   public long hillclimbingP(long[] a) {
     int length = a.length;
     int[] p = randomP(length);
@@ -96,12 +101,11 @@ class randomize {
         resd_ap = resd_app;
       }
     }
-    // printArray(p);
     return resd_ap;
   }
 
 
-
+  // return a residue from simulated annealing algorithm using P representation
   public long simulatedannealingP(long[] a) {
     int length = a.length;
     int[] p = randomP(length);
@@ -123,11 +127,10 @@ class randomize {
         resd_appp = resd_ap;
       }
     }
-    // printArray(ppp);
     return resd_appp;
   }
 
-
+  // return a random S
   private int[] randomS(int length) {
     int[] s = new int[length];
     for (int i = 0; i < length; i++) {
@@ -141,6 +144,7 @@ class randomize {
     return s;
   }
 
+  // return a random prepartitioning P
   private int[] randomP(int length) {
     int[] p = new int[length];
     for (int i = 0; i < length; i++) {
@@ -149,6 +153,7 @@ class randomize {
     return p;
   }
 
+  // return a new sequence A' from A which enforces the prepartitioning from P
   private long[] aprime(int[] p, long[] a) {
     int length = p.length;
     long[] ap = new long[length];
@@ -158,6 +163,7 @@ class randomize {
     return ap;
   }
 
+  // return a random neighbor of S as defined in the assignment
   private int[] neighborS(int[] s) {
     int length = s.length;
     int[] neighborS = new int[length];
@@ -178,6 +184,7 @@ class randomize {
     return neighborS;
 	}
 
+  // return a random neighbor of P as defined in the assignment
   private int[] neighborP(int[] p) {
     int length = p.length;
     int[] neighborP = new int[length];
@@ -192,6 +199,7 @@ class randomize {
     return neighborP;
   }
 
+  // given S and A, return the residue
   private long residue(int[] s, long[] a) {
     long resd = 0;
     for (int i = 0, length = s.length; i < length; i++) {
@@ -201,32 +209,10 @@ class randomize {
     if (resd < 0) {
       resd *= -1;
     }
-
     return resd;
   }
-  // Just pretty prints the array
-  public static void printArray(int[] A) {
-    String result = "";
 
-    // Creates a string from the array
-    for(int i = 0, end = A.length; i < end; i++)
-    {
-      result += A[i] + " ";
-    }
-    System.out.println(result);
-  }
-
-  public static void printArray(long[] A) {
-    String result = "";
-
-    // Creates a string from the array
-    for(int i = 0, end = A.length; i < end; i++)
-    {
-      result += A[i] + " ";
-    }
-    System.out.println(result);
-  }
-
+  // return an array of 100 random longs
   private long[] rand_100longs() {
     long[] result = new long[100];
     for (int i = 0; i < 100; i++) {
@@ -236,6 +222,7 @@ class randomize {
   }
 
   // http://stackoverflow.com/questions/2546078/java-random-long-number-in-0-x-n-range
+  // return the random long from [0,n] 
   private long nextLong(long n) {
     long bits, val;
     do {
@@ -245,7 +232,9 @@ class randomize {
     return val;
   } 
 
+  // run tests to find residues for all algorithms
   public void run_tests() {
+    long startTime = System.nanoTime();
     for (int i = 0; i < 50; i++) {
       long[] a = rand_100longs();
       int length = a.length;
@@ -272,24 +261,17 @@ class randomize {
       System.arraycopy(a, 0, a_clone, 0, length);
       long simulatedannealingP_resd = simulatedannealingP(a_clone);
 
-      System.out.println(kk_resd + " " + repeatedrandomS_resd + " " + repeatedrandomP_resd + " " + 
-        hillclimbingS_resd + " " + hillclimbingP_resd + " " + simulatedannealingS_resd 
-        + " " + simulatedannealingP_resd);
+      System.out.println(kk_resd + ", " + repeatedrandomS_resd + ", " + repeatedrandomP_resd + ", " + 
+        hillclimbingS_resd + ", " + hillclimbingP_resd + ", " + simulatedannealingS_resd 
+        + ", " + simulatedannealingP_resd);
     }
+    long endTime = System.nanoTime();
+    System.out.println("Total Time: " + (endTime-startTime)/1000000000.0 + " seconds.");
   }
 
-  public static void main(String[] args) {
-    randomize r = new randomize();
-    // long[] numlist = r.rand_100longs();
-    // System.out.println("repeated random S: " + r.repeatedrandomS(numlist));
-    // System.out.println("repeated random P: " + r.repeatedrandomP(numlist));
-    // System.out.println("hill climbing S: " + r.hillclimbingS(numlist));
-    // System.out.println("hill climbing P: " + r.hillclimbingP(numlist));
-    // System.out.println("simulated annealing S: " + r.simulatedannealingS(numlist));
-    // System.out.println("simulated annealing P: " + r.simulatedannealingP(numlist));
-
-    r.run_tests();
-
-  }
+  // public static void main(String[] args) {
+  //   randomize r = new randomize();
+  //   r.run_tests();
+  // }
 
 }
