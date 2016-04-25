@@ -243,7 +243,7 @@ class randomize {
       val = bits % n;
     } while (bits-val+(n-1) < 0L);
     return val;
-  } 
+  }
 
   public void run_tests() {
     for (int i = 0; i < 50; i++) {
@@ -272,8 +272,8 @@ class randomize {
       System.arraycopy(a, 0, a_clone, 0, length);
       long simulatedannealingP_resd = simulatedannealingP(a_clone);
 
-      System.out.println(kk_resd + " " + repeatedrandomS_resd + " " + repeatedrandomP_resd + " " + 
-        hillclimbingS_resd + " " + hillclimbingP_resd + " " + simulatedannealingS_resd 
+      System.out.println(kk_resd + " " + repeatedrandomS_resd + " " + repeatedrandomP_resd + " " +
+        hillclimbingS_resd + " " + hillclimbingP_resd + " " + simulatedannealingS_resd
         + " " + simulatedannealingP_resd);
     }
   }
