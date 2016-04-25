@@ -12,6 +12,8 @@ public class kk {
     long largest = H.get(1);
     long large;
     int largeIndex;
+
+    // Determines which child node is the second largest element
     if (H.get(2) < H.get(3))
     {
       large = H.get(3);
@@ -23,11 +25,7 @@ public class kk {
       largeIndex = 2;
     }
 
-    // Finds the two largest numbers
-    // int[] largestIndices = twoMaxNums(A);
-    // System.out.println("Two largest indices: " + largestIndices[0] + " " + largestIndices[1]);
-
-    // Base case
+    // Base case: there is one element remaining
     if (large == 0) {
       return largest;
     }
@@ -84,9 +82,6 @@ public class kk {
   }
 
   public static void main(String[] args) {
-    // long[] A = {10,15,0,6,5};
-    // MaxHeap H = new MaxHeap(A);
-    // System.out.println("Residue: " + KarmarkarKarp(H));
     // Checks the flags
     if(args.length != 1) {
       System.out.println("Output should be of the form 'java kk <inputfile>'");
