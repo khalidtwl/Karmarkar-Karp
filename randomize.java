@@ -67,7 +67,7 @@ class randomize {
       int[] sp = neighborS(s);
       long resd_sp = residue(sp, a);
       double prob = Math.exp((-((double)resd_sp-(double)resd_s))/t_iter);
-      if (resd_sp > resd_s && prob > 0.00001)
+      if (resd_sp > resd_s && prob > 0.001)
         System.out.println(resd_s + " " + resd_sp + " " + prob);
       if (resd_sp < resd_s || rng.nextDouble() < prob) {
         s = sp;
