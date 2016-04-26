@@ -269,9 +269,9 @@ class randomize {
     System.out.println("Total Time: " + (endTime-startTime)/1000000000.0 + " seconds.");
   }
 
-  public static void main(String[] args) {
-    randomize r = new randomize();
-    r.run_tests();
-  }
+  // public static void main(String[] args) {
+  //   randomize r = new randomize();
+  //   r.run_tests();
+  // }
 
 }
